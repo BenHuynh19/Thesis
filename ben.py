@@ -7,10 +7,7 @@ import matplotlib.pyplot as plt
 path = 'data/thesis/'
 
 # The codes below are mainly built based upon the course 
-# Introduction to Portfolio Construction and Analysis with Python, taught by Vijay Vaidyanathan, Phd
-
-def compound(r):
-    return np.expm1(np.log1p(r).sum())          
+# Introduction to Portfolio Construction and Analysis with Python, taught by Vijay Vaidyanathan, Phd       
         
 def get_hf_return (file_name):
     df = pd.read_csv(f'{path}{file_name}', header=0, index_col=0, parse_dates=True)
@@ -19,6 +16,7 @@ def get_hf_return (file_name):
     hfi.columns = hfi.columns.str.strip()
     return hfi
            
+# reading dataframes
 def get_df(file_name, path=path):
     df = pd.read_excel(f'{path}{file_name}', parse_dates=True, header=0, index_col=0)
     df.index = pd.to_datetime(df.index, format='%Y%m').to_period('M')
@@ -39,7 +37,7 @@ def get_hf (file_name, path=path):
     #df.columns = df.columns.str.strip()
     return df
 
-# 7 functions below are used for descriptive purpose
+# functions below are used for descriptive purpose
 def drawdown (return_series: pd.Series):
     wealth = np.multiply(1000, (1 + return_series).cumprod())
     peak = wealth.cummax()
@@ -59,12 +57,6 @@ def get_kurtosis (return_series):
 def is_normal(r, level=0.01):
     stat, p_value = sc.jarque_bera(r)
     return p_value > level
-
-def his_var (r, level=5):
-    var = np.percentile(r, level, axis=0)
-    ind = r.columns
-    df =  pd.DataFrame(var, index=ind, columns=['VaR'])
-    return df
 
 def var_historic (r, level=5):
     if isinstance(r, pd.DataFrame):
@@ -101,13 +93,15 @@ def sharpe_ratio (r, risk_free, period_per_year=12):
     ann_excess_ret = annualize_ret(excess_ret, period_per_year=period_per_year)
     ann_vol = annualize_vol(r, period_per_year=period_per_year)
     return ann_excess_ret/ann_vol
-                                  
+
+# portfolio return and vol                                
 def portfolio_expected_ret (weight, ret):
     return weight.T @ ret
 
 def portfolio_vol (weight, covariance):
     return (weight.T @ covariance @ weight)**0.5
 
+# plotting
 def plot_ef2 (er, cov, n_points=19):
     weight = [np.array([w, 1-w]) for w in np.linspace(0, 1, n_points)]
     port_ret = [portfolio_expected_ret(w, er) for w in weight]
@@ -115,11 +109,6 @@ def plot_ef2 (er, cov, n_points=19):
     ef_2 = pd.DataFrame({'Return': port_ret,
                         'Volatility': port_vol})
     return ef_2.plot.line(x='Volatility', y='Return')
-
-def max_sharpe_port_ret_vol (er, cov, weight, n_points=19):
-    port_ret = portfolio_expected_ret(weight, er)
-    port_vol = portfolio_vol(weight, cov)
-    return port_ret, port_vol
 
 # Minimizing volatility function
 def minimize_vol (target_ret, er, cov):
