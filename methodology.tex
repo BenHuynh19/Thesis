@@ -1,0 +1,19 @@
+\section{Methodology}
+
+Universally considering a set of p primitive assets over the period of time N, the corresponding set of returns are modeled in the vector $r = (r_1, r_2,…,r_p)$ with the expected return: $E(r) = \mu$ and covariance: $Cov(r) = E[(r – \mu) (r – \mu)^T] = \Omega $\\
+A vector $w = (w_1, w_2,…,w_p)$, represents the amount of asset i (i.e, the weight of asset i) in a portfolio comprising of p primitive assets, then the return of the portfolio is calculated as: $r_p = w^Tr = \sum_{i=1}^{p}w_ir_i$. The portfolio must follow the following budget constraint: $\boldsymbol{1}^Tw = 1$, where $\boldsymbol{1}$ is the vector only containing the value of ones as their elements.\\
+The study employs the geometric test for mean-variance efficiency which was proposed by Basak, Jagannathan, and Sun (2002) (henceforth BJS). Specifically, given a benchmark portfolio with expected return: $E(r) = \beta$, and variance: $Var(r) = \vartheta$, the efficiency measurement $\lambda$ is defined as the difference between the variance of the benchmark portfolio with its identically expected return counterpart lining on the efficient frontier from p primitive assets. The efficiency measure $\lambda$, accordingly, is the solution of the following optimization problem:
+\[
+$$\lambda = minimize_w(w^T\Omega w⁡ - \vartheta)$$\\
+s.t:
+&& $$\sum_{i=1}^{n}w_i = 1$$\\
+and:
+&& $$w_i >= 0$$\\
+\]\\
+
+Under the null hypothesis: $\lambda=0$, the benchmark portfolio is mean-variance efficient, and BJS proved that $\lambda$ asymptotically follows a normal distribution:\\
+$ N^{\frac{1}{2}} (\lambda_t - \lambda)\to N(0,\lambda_{\sigma^2})$\\
+Where $\lambda_{\sigma^2}$ is the variance of the efficiency measure with sample size N.
+In case the null is rejected, if $\lambda$ is negative, the benchmark portfolio has higher variance than its counterpart in the frontier while both of the portfolios have the same level of return, meaning the benchmark portfolio is not efficient. In contrast, a positive value of $\lambda$ indicates that the benchmark portfolio is efficient.
+BJS paper originally designed this test to compare a market portfolio as the benchmark, which was calculated by value weighted index of stocks traded on NYSE, Amex and NASDAQ, with 25 size and book-to-market portfolios as the primitive assets. Subsequently, Ehling and Ramos (2006) applied the BJS test to compare two different efficient frontiers with each other. They first anchored one of the efficient frontier, then picked two special points on the other frontier (the minimum variance portfolio and the tangency portfolio) and treated these two as benchmark portfolios. The tangency portfolio, which lines in the efficient frontier, is commonly called the reward-to-variability or Sharpe ratio (SR), representing the excess return of the portfolio relative to the risk free rate, $r_f$, over the portfolio’s standard deviation, and explicitly formulated as: $SR=\frac{w^T\mu - r_f}{\sqrt{w^T\Omega w}}$\\
+Finally, they adopted the BJS test with the reference frontier and the benchmarks respectively. Ehling and Ramos (2006) suggested that the reference frontier is mean-variance efficient compared to the other if one of the benchmark portfolios is significantly inefficient based on the BJS test. This paper will follow the same procedures to measure the mean-variance efficiency of sector ETFs and factor ETFs.
